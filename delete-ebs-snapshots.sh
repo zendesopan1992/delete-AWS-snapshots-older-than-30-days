@@ -7,6 +7,10 @@ else
     DATETOCOMPARE=$(date --date="30 days ago" +%s) #Linux
 fi
 
+C=$(date)
+D=$(echo "$C" | awk -F' ' '{ printf "%s-%s-%s", $6, $2, $3 }')
+
+
 date > SNAP_TO_KEEP.txt
 date > SNAP_TO_DELETE.txt
 
@@ -23,7 +27,8 @@ while read az; do
                             do
                             echo "working on snap " $snap
                             raw_date=`echo $snap | cut -d, -f1`
-                            snap_date=`gdate -d $raw_date +%s`
+                            snap_date=`gdate -d $raw_date +%s` #mac
+                            #snap_date=`date -u -d $raw_date +%s` #linux
                             echo "Snap date is: " $snap_date
                             echo "Snap to compare is: " $DATETOCOMPARE
                                       if [ $DATETOCOMPARE -gt $snap_date ]
